@@ -1,0 +1,97 @@
+body{
+	background-color: #232323;
+}
+/*td{
+	text-align: center;
+}*/
+table {
+	margin: auto;
+}
+
+td{
+	width: 130px;
+	height: 130px;
+}
+.x{
+	color: red;
+}
+.o{
+	color: blue;
+}
+
+.vertical {
+	border-left: 3px solid white;
+	border-right: 3px solid white;
+}
+.horizontal {
+	border-top: 3px solid white;
+	border-bottom: 3px solid white;
+}
+
+.contenedor{
+/*	width: 90%;
+	background: green;
+	padding-bottom: 90%;
+	float: left;
+	margin: auto 5%;
+	border-radius: 15%;
+	transition: background 0.3s;*/
+}
+
+h1{
+	font-family: 'Raleway', sans-serif;
+	color: white;
+	text-align: center;
+	background-color: steelblue;
+	margin: 0;
+	text-transform: uppercase;
+	line-height: 1.1;
+	padding: 20px 0;
+	font-weight: 400;
+}
+#colorDisplay{
+	font-size: 200%;
+}
+#stripe{
+	background-color: white;
+	height: 30px;
+	text-align: center;
+}
+button:hover{
+	color:white;
+	background-color: steelblue;
+}
+button{
+	border: none;
+	background: none;
+	text-transform: uppercase;
+	height: 100%;
+	font-weight: 700;
+	color: steelblue;
+	letter-spacing: 1px;
+	font-size: inherit;
+	transition: all 0.3s;
+}
+p{
+	width: 90%;
+	font-family: 'Quicksand', sans-serif;
+	margin: auto 5%;
+	transition: all 0.3s;
+	font-size: 80px;
+	text-align: center;
+	transition: all 0.3s;
+}
+.selected{
+	background-color: steelblue;
+	color: white;
+}
+
+#spacer{
+	display: inline-block;
+	width: 10%;
+	/*font-weight: 700;*/
+}
+.selected{
+	background-color: steelblue;
+	color: white;
+}

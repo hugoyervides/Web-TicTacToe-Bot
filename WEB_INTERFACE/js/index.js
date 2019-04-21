@@ -1,0 +1,162 @@
+//Declaracion de variables
+var tablero=new Array(3);
+var juego=new Array(3);
+var h1 = document.querySelector("h1");
+var message = document.querySelector("#message");
+var continueGame=true;
+var easyBtn= document.querySelector("#easy");
+var hardBtn= document.querySelector("#hard");
+var dif ="hard";
+
+//Agregar listener para cambiar la dificultad del juegoe
+easyBtn.addEventListener("click", function(){
+	//cambiar la aparencia de boton
+	easyBtn.classList.add("selected");
+	hardBtn.classList.remove("selected");
+	//change the game dif
+	dif="easy";
+})
+//Agregar listener para cambiar la dificultad del juegoe
+hardBtn.addEventListener("click", function(){
+	//cambiar la aparencia de boton
+	hardBtn.classList.add("selected");
+	easyBtn.classList.remove("selected");
+	//change the game dif
+	dif="hard";
+})
+
+//Funcion para hacer reset al game
+function resetGame(){
+	//cambiar el fondo del h1 a azul de nuevo
+	h1.style.backgroundColor = "steelblue";
+	message.innerHTML="PLAYER TURN!";
+	//ponemos la matriz de juego en puros espacios
+	for(var i=0; i<3; i++){
+		for(var j=0; j<3; j++){
+			juego[i][j]=" ";
+		}
+	}
+	//actualizar el dom
+	for(let i=0; i<3; i++){
+		for(let j=0; j<3; j++){
+			//actulizar el dom
+			tablero[i][j].innerHTML='<div class="contenedor"><p>'+juego[i][j]+'</p></div>';
+			tablero[i][j].classList.remove("X");
+			tablero[i][j].classList.remove("O");
+		}
+	}
+	continueGame = true;
+}
+
+
+for(var i=0; i<3; i++){
+	tablero[i]=new Array(3);
+	juego[i]=new Array(3);
+}
+//llenar toda la matriz de juego con espacios
+for(var i=0; i<3; i++){
+	for(var j=0; j<3; j++){
+		juego[i][j]=' ';
+	}
+}
+
+//Funcion que llama la API para tener el tiro de la computadora
+function getComputerMove(juego){
+	//convertir la jugada actual en JSON para mandar llamar el API
+	let matResultados = {"0" : {"0":' ',"1":' ',"2":' '}, "1" : {"0":' ',"1":' ',"2":' '}, "2" : {"0":' ',"1":' ',"2":' '}}
+	for(var i=0; i<3 ; i++){
+		for(var j=0; j<3; j++){
+			var row=i.toString();
+			var col=j.toString();
+			matResultados[row][col]=juego[i][j];
+		}
+	}
+	//get the dif and insert it on the json file
+	matResultados["dif"]=dif;
+	//ajax request
+	jQuery.ajax({
+	          url: "http://gato.orbi.mx/makePlay",
+	          type: "POST",
+	          data: JSON.stringify(matResultados),
+	          dataType: "json",
+	          beforeSend: function(x) {
+	            if (x && x.overrideMimeType) {
+	              x.overrideMimeType("application/j-son;charset=UTF-8");
+	            }
+	          },
+	          success: function(result) {
+		 	    for(let i=0; i<3; i++){
+		 	     	for(let j=0; j<3; j++){
+		 	     		juego[i][j]=result[i.toString()][j.toString()];
+		 	     		//actulizar el dom
+		 	     		tablero[i][j].innerHTML='<div class="contenedor"><p>'+juego[i][j]+'</p></div>';
+		 	     		if(juego[i][j]=="X"){
+							tablero[i][j].classList.remove("o");
+							tablero[i][j].classList.add("x");
+						}
+						else if(juego[i][j]=="O"){
+							tablero[i][j].classList.remove("x");
+							tablero[i][j].classList.add("o");
+						}
+					}
+		 	    }
+				continueGame=true;        
+				message.innerHTML="PLAYER TURN!";
+				//Check if someone wins
+	          	if((result["status"]=="GAMEOVER")&&(result["winner"]=="N")){
+	          		//terminar el juego
+	          		//poner el background del h1 en gris
+	          		h1.style.backgroundColor = "#232323";
+	          		//cambiar el mensaje
+	          		message.innerHTML="GAMEOVER!";
+	          		continueGame=false;
+	          	}
+	          	else if(result["winner"]!="N"){
+	          		//obtener el jugador y su color para desplegarlo
+	          		var winner = result["winner"];
+	          		//terminar el juego
+	          		//poner el background del h1 en gris
+	          		if(winner=="X"){
+					h1.style.backgroundColor = "red";
+					}
+					else{
+						h1.style.backgroundColor = "blue";
+	          		}
+					//cambiar el mensaje
+	          		message.innerHTML=winner+" WIN THE GAME!";
+	          		continueGame=false;
+	          	}
+			}
+	});
+}
+
+function setup(){
+	//set dificulty to hard
+	hardBtn.classList.add("selected");
+	easyBtn.classList.remove("selected");
+	//Selecionar los elementos del dom y meterlos en el tablero
+	var cont=0;
+	for(let i=0; i<3; i++){
+		for(let j=0; j<3; j++){
+			var nombreClase="#cuadrante"+cont.toString();
+			tablero[i][j]=document.querySelector(nombreClase);
+			//agregamos el litener cuando se de click
+			tablero[i][j].addEventListener("click", function(){
+				//ver si no esta ocupado por otro jugador
+				if((juego[i][j]==' ' )&&continueGame){
+					continueGame=false;
+					//cambiar el contenido por la X y agregarle las propiedades de la X
+					tablero[i][j].innerHTML='<div class="contenedor"><p>X</p></div>';
+					tablero[i][j].classList.add("x");
+					//metemos la jugada en la matriz princiapl de juego
+					juego[i][j]='X';
+					message.innerHTML="COMPUTER TURN!";
+					//llamar api para tener la jugada de la computadora
+					getComputerMove(juego);
+				}
+			});
+			cont++;
+		}
+	}
+}
+setup();

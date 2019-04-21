@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TicTacToe Boot</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet"> 
+</head>
+<body>
+	<h1>
+		<span id="colorDisplay">Tic Tac Toe</span> 
+		<br>
+		<span id="message">PLAYER TURN!</span>
+	</h1>
+	<div id="stripe">
+		<button id="reset" onclick="resetGame()" >Reset Game!</button>
+		<span id="spacer"></span>
+		<button id="pvc" class="selected">Player vs CPU!</button>
+		<button id="cvc" onclick="location.href='cvc.html'">CPU vs CPU!</button>
+		<button id="pvp" onclick="location.href='pvp.html'">Player vs Player!</button>
+	</div>
+	<div class="container my-4">
+		
+			<table>
+				<tr>
+					<td id="cuadrante0"><div class="contenedor">
+					<p> </p>
+					</div></td>
+					<td id="cuadrante1" class="vertical"><div class="contenedor">
+					<p> </p>
+					</div></td>
+					<td id="cuadrante2"><div class="contenedor">
+					<p> </p>
+					</div></td>
+				</tr>
+
+				<tr>
+					<td id="cuadrante3" class="horizontal"><div class="contenedor">
+					<p> </p>	
+					</div></td>
+					<td id="cuadrante4" class="vertical horizontal"><div class="contenedor">
+					<p> </p>	
+					</div></td>
+					<td id="cuadrante5" class="horizontal"><div class="contenedor">
+					<p> </p>	
+					</div></td>
+				</tr>
+
+				<tr>
+					<td id="cuadrante6"><div class="contenedor">
+					<p> </p>	
+					</div></td>
+					<td id="cuadrante7" class="vertical"><div class="contenedor">
+					<p> </p>	
+					</div></td>
+					<td id="cuadrante8" ><div class="contenedor">
+					<p> </p>	
+					</div></td>
+				</tr>
+			</table>
+		
+	</div>
+	<div id="stripe">
+		<button id="easy">Easy!</button>
+		<button id="hard">Hard!</button>
+	</div>
+	<script
+			  src="https://code.jquery.com/jquery-3.3.1.js"
+			  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+			  crossorigin="anonymous"></script>
+	<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
